@@ -21,6 +21,12 @@ using Poco::Net::HTTPServerResponse;
 using Poco::Util::Application;
 using Poco::RegularExpression;
 
+void ReportError::reportTo(HttpApiError error, Poco::JSON::Object::Ptr& responseData) {
+    responseData->set("error_code", static_cast<int> (error));
+    responseData->set("error_message", "");
+    responseData->set("data", "");
+}
+
 HTTPRequestBaseHandler::HTTPRequestBaseHandler(const std::string& requestPath)
 : _requestPath(requestPath) {
 }

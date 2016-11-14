@@ -21,10 +21,6 @@ using Poco::Net::HTTPServerRequest;
 using Poco::Net::HTTPServerResponse;
 using Poco::Util::Application;
 
-void ReportError::reportTo(HttpApiError error, Poco::JSON::Object::Ptr& responseData) {
-    responseData->set("error", static_cast<int> (error));
-}
-
 HTTPKaraokeRequestHandler::HTTPKaraokeRequestHandler(const std::string& path, const std::map<std::string, std::string>& params) :
     HTTPRequestBaseHandler(path),
     _params(params) {    
@@ -339,13 +335,15 @@ Poco::Dynamic::Var HTTPKaraokeRequestHandler::handleDetailsKaraoke(Poco::Net::HT
 }
 
 void HTTPKaraokeRequestHandler::fillJsonResponseData(const std::string& msg, Poco::JSON::Object::Ptr& responseData) {
-    responseData->set("error", 0);
-    responseData->set("msg", msg);
+    responseData->set("error_code", 0);
+    responseData->set("error_message", "Successful");
+    responseData->set("data", msg);
 }
 
 void HTTPKaraokeRequestHandler::fillJsonResponseMyKaraoke(const std::string& msg, Poco::JSON::Object::Ptr& responseData) {
-    responseData->set("error", 0);
-    responseData->set("msg", msg);
+    responseData->set("error_code", 0);
+    responseData->set("error_message", "Successful");
+    responseData->set("data", msg);
 }
 
 

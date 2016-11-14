@@ -37,10 +37,6 @@ using Poco::DateTimeFormatter;
 using Poco::LocalDateTime;
 using Poco::DateTime;
 
-//void ReportError::reportTo(HttpApiError error, Poco::JSON::Object::Ptr& responseData) {
-//    responseData->set("error", static_cast<int> (error));
-//}
-
 HTTPUserRequestHandler::HTTPUserRequestHandler(const std::string& path, const std::map<std::string, std::string>& params) :
     HTTPRequestBaseHandler(path),
     _params(params)
@@ -141,7 +137,7 @@ Poco::Dynamic::Var HTTPUserRequestHandler::handleLogin(Poco::Net::HTTPServerRequ
                                                  apikey,
                                                  birthday);
             if (workerResult.failed()) {
-                ReportError::reportTo(static_cast<HttpApiError> (workerResult.errorCode()), responseData);
+                ReportError::reportTo(HttpApiError::ParameterMissing, responseData);
                 return responseData;
             }
             std::string result = Poco::trim(workerResult.extract<std::string>());
@@ -189,8 +185,10 @@ void HTTPUserRequestHandler::fillJsonUserResponseData(const std::string& id,
     user->set("gender", gender);
     user->set("birthday", birthday);
     user->set("apikey", apikey);
-    responseData->set("error", 0);
-    responseData->set("msg", user);
+    //response
+    responseData->set("error_code", 0);
+    responseData->set("error_message", "Successful");
+    responseData->set("data", user);
 }
 
 std::string HTTPUserRequestHandler::generateAccountClaims(const std::shared_ptr<UserInfo> &user, Poco::JSON::Object::Ptr& responseData) const {

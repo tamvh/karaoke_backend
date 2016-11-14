@@ -10,6 +10,7 @@
 #include <Poco/Dynamic/Var.h>
 #include <include/zcommon/errorcode.h>
 
+
 enum class HttpApiError {
     InvalidRequest = (int) ZErrorCode::APIHTTP_Start,
     ParameterMissing,
